@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { Aluno } from '../models/aluno.model';
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  selector: 'app-lista',
+  templateUrl: 'lista.page.html',
+  styleUrls: ['lista.page.scss']
 })
-export class Tab3Page implements OnInit {
+export class ListaPage {
 
   private alunos: Aluno[];
 
@@ -17,7 +17,7 @@ export class Tab3Page implements OnInit {
     private router: Router) {}
 
     
-  ngOnInit(): void {
+  ionViewWillEnter(): void {
     this.listaAlunos();
   }
 
@@ -26,5 +26,15 @@ export class Tab3Page implements OnInit {
       alunosDB => this.alunos = alunosDB,
       erroDB => console.log(erroDB)
     );
+  }
+
+  deleteAluno(id: number) {
+    this.alunoService.deleteAluno(id).subscribe(
+      () => this.listaAlunos()
+    );
+  }
+
+  atualizaAluno(id: number) {
+    this.router.navigateByUrl(`tabs/cadastro/${id}`)
   }
 }

@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Aluno } from '../models/aluno.model';
+import { Observable } from 'rxjs';
 
 const API_URL = 'http://localhost:3000';
 const httpOptions = {
@@ -27,8 +28,8 @@ export class AlunoService {
   }
 
   // RETRIEVE SINGLE
-  getAluno(matricula: number) {
-    return this.http.get<Aluno>(`${API_URL}/alunos?matricula=${matricula}`, httpOptions);
+  getAluno(id: number) {
+    return this.http.get<Aluno>(`${API_URL}/alunos/${id}`, httpOptions);
   }
 
   // RETRIEVE ALL

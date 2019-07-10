@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
+import { CadastroPage } from './cadastro.page';
 
 @NgModule({
   imports: [
@@ -11,8 +11,8 @@ import { Tab1Page } from './tab1.page';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: Tab1Page }])
+    RouterModule.forChild([{ path: '', component: CadastroPage }])
   ],
-  declarations: [Tab1Page]
+  declarations: [CadastroPage]
 })
-export class Tab1PageModule {}
+export class CadastroPageModule {}

@@ -1,26 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AlunoService } from '../services/aluno.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Aluno } from '../models/aluno.model';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-cadastro',
+  templateUrl: 'cadastro.page.html',
+  styleUrls: ['cadastro.page.scss']
 })
-export class Tab1Page implements OnInit {
+export class CadastroPage implements OnInit {
   
   formAluno: FormGroup;
+  aluno: Aluno;
 
   constructor(private formBuilder: FormBuilder, 
               private alunoService: AlunoService,
+              private route: ActivatedRoute,
               private router: Router) {}
   
-  ngOnInit(): void {
+  ngOnInit() {
+    let id = Number(this.route.snapshot.paramMap.get('id')) || 0;
+  
+    if(id == 0) {
+      this.aluno = {id: null, matricula: null, nome: '', email: ''}
+    } else {
+      //this.alunoService.getAluno(id).toPromise().then( async data => this.aluno = await data );
+      this.aluno = {id: null, matricula: null, nome: '', email: ''}
+      console.log(id)
+    }
+    
     this.formAluno = this.formBuilder.group({
       nome: [
-        '', // parametro responsável pelo valor(conteúdo do campo), caso adicione um valor será exibido no input
+        this.aluno.nome, // parametro responsável pelo valor(conteúdo do campo), caso adicione um valor será exibido no input
         [
           Validators.required, // validação de campo requerido
           Validators.minLength(4), // validação de valor minimo de caracteres
@@ -29,7 +41,7 @@ export class Tab1Page implements OnInit {
         ]
       ],
       matricula: [
-        '', 
+        this.aluno.matricula, 
         [
           Validators.required,
           Validators.minLength(5),
@@ -38,7 +50,7 @@ export class Tab1Page implements OnInit {
         ]
       ],
       email: [
-        '', 
+        this.aluno.email, 
         [
           Validators.required,
           Validators.email // validação de email
@@ -54,7 +66,10 @@ export class Tab1Page implements OnInit {
     this.alunoService
       .addAluno(novoAluno)
       .subscribe(
-        () => this.router.navigateByUrl('tabs/tab3'), // faz um redicionamento para a aba tab3
+        () => {
+          this.router.navigateByUrl('tabs/lista') // faz um redicionamento para a aba tab3
+          this.formAluno.reset(); // limpa os campos do formulário
+        },
         error => {
           console.log(error);
           this.formAluno.reset(); // limpa os campos do formulário
